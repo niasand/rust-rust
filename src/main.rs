@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 
-async fn get() -> Result<HashMap<String, String>, reqwest::Error> {
+async fn httpget() -> Result<HashMap<String, String>, reqwest::Error> {
     let resp = reqwest::get("https://httpbin.org/ip")
         .await?
         .json::<HashMap<String, String>>()
@@ -10,7 +10,7 @@ async fn get() -> Result<HashMap<String, String>, reqwest::Error> {
     Ok(resp)
 }
 
-async fn post() -> Result<(), reqwest::Error> {
+async fn httppost() -> Result<(), reqwest::Error> {
     let echo_json: serde_json::Value = reqwest::Client::new()
         .post("https://jsonplaceholder.typicode.com/posts")
         .json(&serde_json::json!({
@@ -32,11 +32,11 @@ async fn post() -> Result<(), reqwest::Error> {
 #[tokio::main]
 async fn main() {
     println!("Hello, world!");
-    if let Ok(res) = get().await {
+    if let Ok(res) = httpget().await {
         println!("{:#?}", res)
     }
 
-    if let Ok(res) = post().await {
+    if let Ok(res) = httppost().await {
         println!("{:#?}", res)
     }
 }
