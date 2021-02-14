@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 
 
-async fn get() -> Result<(), Box<dyn std::error::Error>> {
+async fn get() -> Result<HashMap<String, String>, reqwest::Error> {
     let resp = reqwest::get("https://httpbin.org/ip")
         .await?
         .json::<HashMap<String, String>>()
         .await?;
     println!("{:#?}", resp);
-    Ok(())
+    Ok(resp)
 }
 
 async fn post() -> Result<(), reqwest::Error> {
